@@ -1,24 +1,34 @@
 class Solution {
-  public int findJudge(int n, int[][] trust) {
-    // Create an array 'count' to keep track of the net trust count for each person.
-    // The array has 'n + 1' elements to match the indexing from 1 to n (inclusive).
-    int[] count = new int[n + 1];
+    public int findJudge(int N, int[][] trust) {
+        if (N == 1) {
+            return 1; // If there's only one person, they are the judge by default
+        }
 
-    // Iterate through the 'trust' array.
-    for (int[] t : trust) {
-      // For each trust relationship [a, b], decrement trust count for 'a' and increment trust count for 'b'.
-      --count[t[0]];
-      ++count[t[1]];
+        int[] trustCounts = new int[N + 1];
+
+        for (int[] t : trust) {
+            trustCounts[t[0]]--; // person t[0] trusts someone, decrease their trust count
+            trustCounts[t[1]]++; // person t[1] is trusted by someone, increase their trust count
+        }
+
+        for (int i = 1; i <= N; i++) {
+            if (trustCounts[i] == N - 1) { // the judge should be trusted by N-1 people
+                return i;
+            }
+        }
+
+        return -1; // No judge found
     }
 
-    // Iterate through the elements of the 'count' array starting from index 1.
-    for (int i = 1; i < n + 1; ++i)
-      // Check if the net trust count for a person 'i' is equal to 'n - 1'.
-      // If it is, that person is considered a judge, as everyone trusts them, but they trust no one (except themselves).
-      if (count[i] == n - 1)
-        return i;
-
-    // If no judge is found, return -1.
-    return -1;
-  }
+//     public static void main(String[] args) {
+//         FindTownJudge finder = new FindTownJudge();
+//         int[][] trust = { {1, 3}, {2, 3}, {3, 1} };
+//         int N = 3;
+//         int judge = finder.findJudge(N, trust);
+//         if (judge == -1) {
+//             System.out.println("No judge found.");
+//         } else {
+//             System.out.println("The judge is person: " + judge);
+//         }
+//     }
 }
