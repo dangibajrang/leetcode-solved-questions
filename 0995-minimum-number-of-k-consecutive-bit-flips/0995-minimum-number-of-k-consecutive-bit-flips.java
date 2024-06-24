@@ -50,15 +50,4 @@ class Solution {
 
         return flips;
     }
-
-    // public static void main(String[] args) {
-    //     Solution solver = new Solution();
-    //     int[] A = {0, 1, 0};
-    //     int K = 1;
-    //     System.out.println(solver.minKBitFlips(A, K)); // Output: 2
-
-    //     int[] B = {1, 1, 0, 0, 1};
-    //     int K2 = 2;
-    //     System.out.println(solver.minKBitFlips(B, K2)); // Output: -1
-    // }
 }
