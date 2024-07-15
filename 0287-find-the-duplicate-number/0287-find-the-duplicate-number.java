@@ -1,25 +1,20 @@
-// class Solution {
-//     public int findDuplicate(int[] nums) {
-//         for(int i =0 ; i<nums.length ;i++){
-//             int index = Math.abs(nums[i]);
-//             if(nums[index]<0) return index;
-//             nums [index] = -nums[index];
-
-//         }
-//         return -1;
-        
-//     }
-// }
-
 class Solution {
-    public int findDuplicate(int[] nums) {
-    HashSet<Integer> seen = new HashSet<>();
-    for (int num : nums) {
-        if (seen.contains(num)) {
-            return num;
-        }
-        seen.add(num);
+  public int findDuplicate(int[] nums) { 
+    int slow = nums[nums[0]]; // Initialize slow pointer to the value at index nums[0]
+    int fast = nums[nums[nums[0]]]; // Initialize fast pointer to the value at index nums[nums[0]]
+
+    while (slow != fast) { // Start loop until slow and fast pointers meet
+      slow = nums[slow]; // Move slow pointer one step forward
+      fast = nums[nums[fast]]; // Move fast pointer two steps forward
     }
-    return -1;  // Just to satisfy the compiler, this should never be reached
-}
+
+    slow = nums[0]; // Reset slow pointer to the beginning of the array
+
+    while (slow != fast) { // Loop until slow and fast pointers meet again
+      slow = nums[slow]; // Move slow pointer one step forward
+      fast = nums[fast]; // Move fast pointer one step forward
+    }
+
+    return slow; // Return the value where slow and fast pointers meet, indicating the duplicate number
+  }
 }
