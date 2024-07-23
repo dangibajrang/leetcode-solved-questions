@@ -1,35 +1,39 @@
-
-
-class T {
-  public int num;
-  public int freq;
-  public T(int num, int freq) {
-    this.num = num;
-    this.freq = freq;
-  }
-};
-
 class Solution {
-  public int[] frequencySort(int[] nums) {
-    int[] ans = new int[nums.length];
-    int ansIndex = 0;
-    Map<Integer, Integer> count = new HashMap<>();
-    Queue<T> heap =
-        new PriorityQueue<>((a, b) -> a.freq == b.freq ? b.num - a.num : a.freq - b.freq);
+    public int[] frequencySort(int[] nums) {
+        // Step 1: Count the frequency of each element
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (int num : nums) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
 
-    for (final int num : nums)
-      count.merge(num, 1, Integer::sum);
+        // Step 2: Create a priority queue
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> {
+            // Sort by frequency in ascending order
+            if (a[1] != b[1]) {
+                return a[1] - b[1];
+            }
+            // If frequencies are the same, sort by value in descending order
+            return b[0] - a[0];
+        });
 
-    for (Map.Entry<Integer, Integer> entry : count.entrySet())
-      heap.offer(new T(entry.getKey(), entry.getValue()));
+        // Add elements to the priority queue
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            heap.offer(new int[]{entry.getKey(), entry.getValue()});
+        }
 
-    while (!heap.isEmpty()) {
-      final int num = heap.peek().num;
-      final int freq = heap.poll().freq;
-      for (int i = 0; i < freq; ++i)
-        ans[ansIndex++] = num;
+        // Step 3: Build the result array
+        int[] result = new int[nums.length];
+        int index = 0;
+
+        while (!heap.isEmpty()) {
+            int[] entry = heap.poll();
+            int value = entry[0];
+            int frequency = entry[1];
+            for (int i = 0; i < frequency; i++) {
+                result[index++] = value;
+            }
+        }
+
+        return result;
     }
-
-    return ans;
-  }
 }
