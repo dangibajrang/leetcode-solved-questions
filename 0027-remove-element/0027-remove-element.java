@@ -1,13 +1,19 @@
-class Solution {
+public class Solution {
     public int removeElement(int[] nums, int val) {
-        if(nums.length == 0) return 0;
-        int final_size =0 ;
-        for(int i = 0 ; i< nums.length ; i++){
-            if(nums[i] !=  val ){
-                nums[final_size] =nums[i];
-                final_size++;
+        // Initialize the pointer for the position to place non-val elements
+        int newIndex = 0;
+
+        // Iterate through the array using a pointer
+        for (int i = 0; i < nums.length; i++) {
+            // If the current element is not the value to remove
+            if (nums[i] != val) {
+                // Place it at the new index and increment the new index
+                nums[newIndex] = nums[i];
+                newIndex++;
             }
         }
-        return final_size;
+
+        // Return the length of the array with the specified value removed
+        return newIndex;
     }
 }
