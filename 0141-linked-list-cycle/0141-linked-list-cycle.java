@@ -11,13 +11,24 @@
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        ListNode slow = head , fast = head;
-        while(fast!=null && fast.next!=null){
-            fast = fast.next.next;
-            slow = slow.next;
-            if(slow == fast) return true;
-        }
-        return false;
+        // Initialize two pointers: tortoise and hare
+        ListNode tortoise = head;
+        ListNode hare = head;
         
+        // Traverse the list with two pointers
+        while (hare != null && hare.next != null) {
+            // Move tortoise one step
+            tortoise = tortoise.next;
+            // Move hare two steps
+            hare = hare.next.next;
+            
+            // If the two pointers meet, a cycle exists
+            if (tortoise == hare) {
+                return true;
+            }
+        }
+        
+        // If the end of the list is reached, no cycle exists
+        return false;
     }
 }
