@@ -1,9 +1,14 @@
 class Solution {
     public int maxAreaOfIsland(int[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+
+        int rows = grid.length, cols = grid[0].length;
         int maxArea = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == 1) {
+
+        // Traverse the grid
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) { // Found land
                     maxArea = Math.max(maxArea, dfs(grid, i, j));
                 }
             }
@@ -11,11 +16,21 @@ class Solution {
         return maxArea;
     }
 
-    private int dfs(int[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == 0) {
+    private int dfs(int[][] grid, int r, int c) {
+        // Base case: If out of bounds or at water (0), return 0
+        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 0) {
             return 0;
         }
-        grid[i][j] = 0; // mark as visited
-        return 1 + dfs(grid, i + 1, j) + dfs(grid, i - 1, j) + dfs(grid, i, j + 1) + dfs(grid, i, j - 1);
+
+        grid[r][c] = 0; // Mark cell as visited
+        int area = 1; // Count this cell
+
+        // Explore all four possible directions and accumulate the area
+        area += dfs(grid, r - 1, c); // Up
+        area += dfs(grid, r + 1, c); // Down
+        area += dfs(grid, r, c - 1); // Left
+        area += dfs(grid, r, c + 1); // Right
+
+        return area;
     }
 }
